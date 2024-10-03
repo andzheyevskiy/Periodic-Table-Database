@@ -19,6 +19,17 @@ else
   if [[  $1 =~ ^[0-9]+$  ]]; then
   RESPONSE=$($PSQL "SELECT  atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements e LEFT JOIN properties p USING (atomic_number) WHERE atomic_number=$1")
     SEND_TEXT "$RESPONSE"
+
+  else
+  #Check for name
+  RESPONSE=$($PSQL "SELECT  atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements e LEFT JOIN properties p USING (atomic_number) WHERE e.name='$1'")
+    if [[ -z $RESPONSE ]]; then
+      #Check for symbol
+      RESPONSE=$($PSQL "SELECT  atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements e LEFT JOIN properties p USING (atomic_number) WHERE e.symbol='$1'")
+      SEND_TEXT "$RESPONSE"
+    fi
+
+
   fi
 
 fi
