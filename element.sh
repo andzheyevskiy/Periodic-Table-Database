@@ -26,6 +26,7 @@ else
     if [[ -z $RESPONSE ]]; then
       #Check for symbol
       RESPONSE=$($PSQL "SELECT  atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements e LEFT JOIN properties p USING (atomic_number) WHERE e.symbol='$1'")
+    else
       SEND_TEXT "$RESPONSE"
     fi
 
