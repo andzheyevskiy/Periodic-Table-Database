@@ -8,7 +8,7 @@ if [[ -z $1  ]];then
     else
     echo $1 | while read NUMBER BAR SYMBOL BAR NAME BAR TYPE BAR MASS BAR MELTING BAR BOILING
       do
-      echo "The element with atomic number $NUMBER is $NAME ($SYMBOL), It's $TYPE, with a mass of $MASS amu. $NMAE has a melting point of $MELTING celsius and a boiling point of $BOILING celsius."
+      echo "The element with atomic number $NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $MASS amu. $NAME has a melting point of $MELTING celsius and a boiling point of $BOILING celsius."
       done
 fi
 }
@@ -26,6 +26,7 @@ else
     if [[ -z $RESPONSE ]]; then
       #Check for symbol
       RESPONSE=$($PSQL "SELECT  atomic_number, symbol, name, type, atomic_mass, melting_point_celsius, boiling_point_celsius FROM elements e LEFT JOIN properties p USING (atomic_number) WHERE e.symbol='$1'")
+      SEND_TEXT "$RESPONSE"
     else
       SEND_TEXT "$RESPONSE"
     fi
